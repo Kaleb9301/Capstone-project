@@ -12,7 +12,8 @@ from django.contrib.auth.models import User
 from .serializers import UserSerializer
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, DestroyAPIView
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 def sayHello(request):
@@ -36,6 +37,7 @@ class bookingview(APIView):
     
     
 class MenuItemView(ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer 
 
@@ -45,5 +47,12 @@ class SingleMenuItem(RetrieveUpdateAPIView, DestroyAPIView):
 
 
 class BookingViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def msg(request):
+    return Response({"message": "This view is protected"})
