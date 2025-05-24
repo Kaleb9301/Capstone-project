@@ -32,7 +32,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class bookingview(APIView):
     def get(self, request):
         items  = Booking.objects.all()
-        serializer = bookingSerializer(items, many=True)
+        serializer = BookingSerializer(items, many=True)
         return Response(serializer.data) # Return JSON
     
     
